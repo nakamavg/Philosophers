@@ -7,6 +7,7 @@
 	- [Función pthread_create](#funcion-pthread_create)
 	- [Función pthread_join](#funcion-pthread_join)
 3. [Main de ejemplo](#main-de-ejemplo)
+4. [QUE SON LAS RECE CONDITIONS](README2.md)
 
 ### Introducción
 - Para empezar a usar hilos debemos incluir la libreria : `<pthread.h>`
