@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:37:48 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/26 21:56:13 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 23:32:08 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void *sumar(void *arg)
 {
     t_data *data = (t_data *)arg;
     int i = 0;
-    while (i < 1000000)
+    while (i < 10000000)
     {
         pthread_mutex_lock(&(data->lock));
         data->value = data->value + 1;
