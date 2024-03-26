@@ -1,6 +1,6 @@
 # LAS RACE CONDITIONS 
 
-## [ANTES QUE NADA EL VIDEO DONDE APRENDI YO TODO ESTO](https://youtu.be/FY9livorrJI?si=cKhMW47I3A3AuPnd)
+## [ANTES QUE NADA EL VIDEO DONDE APRENDI YO TODO ESTO click aquí](https://youtu.be/FY9livorrJI?si=cKhMW47I3A3AuPnd)
 
 - Con los hilos tenemos un problema que voy a dejar aqui
 materializado para acordarme siempre de esto.
