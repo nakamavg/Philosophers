@@ -1,5 +1,10 @@
 # LAS RACE CONDITIONS 
 
+1. [Introducció	](#antes-que-nada-el-video-donde-aprendi-yo-todo-esto-click-aquí)
+2. [main](#main-de-ejemplo)
+3. [Explicacion](#expliacion-en-detalle)
+4. [Solucion](README3.md)
+
 ## [ANTES QUE NADA EL VIDEO DONDE APRENDI YO TODO ESTO click aquí](https://youtu.be/FY9livorrJI?si=cKhMW47I3A3AuPnd)
 
 - Con los hilos tenemos un problema que voy a dejar aqui
