@@ -6,14 +6,14 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 23:53:35 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/27 14:05:26 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/27 21:19:04 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 
-void	check_args(int ac, char **av, t_philo *philo)
+void	check_args(int ac, char **av, t_data *data)
 {
 	int	i;
 	int j;
@@ -31,19 +31,21 @@ void	check_args(int ac, char **av, t_philo *philo)
 				ft_error(IVALID_CHARS);
 		}
 	}
-	memset(philo, 0, sizeof(t_philo));
-	philo->num_philo = ft_atoi(av[1]);
-	philo->time_to_die = ft_atoi(av[2]);
-	philo->time_to_eat = ft_atoi(av[3]);
-	philo->time_to_sleep = ft_atoi(av[4]);
+	memset(data, 0, sizeof(t_data));
+	
+	data->num_philo = ft_atoi(av[1]);
+	data->time_to_die = ft_atoi(av[2]);
+	data->time_to_eat = ft_atoi(av[3]);
+	data->time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
-		philo->num_eat = ft_atoi(av[5]);
+		data->num_eat = ft_atoi(av[5]);
 }
 int	main(int ac, char **av)
 {
-	t_philo	philo;
-	check_args(ac, av, &philo);
-	init_threads(&philo);
+	t_data data;
+	check_args(ac, av, &data);
+	init_threads(&data);
+	//clear_memory(&philo);
 	
 	
 	return (0);
