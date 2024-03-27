@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 23:53:35 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/27 00:41:34 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:05:26 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_args(int ac, char **av, t_philo *philo)
 	int	i;
 	int j;
 	
-	i = 1;
+	i = 0;
 	
 	if (ac < 5 || ac > 6)
 		ft_error(IVALID_ARGS);
@@ -43,6 +43,7 @@ int	main(int ac, char **av)
 {
 	t_philo	philo;
 	check_args(ac, av, &philo);
+	init_threads(&philo);
 	
 	
 	return (0);
