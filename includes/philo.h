@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/28 01:58:51 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:53:24 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@
 # define BLUE "\033[0;34m"
 # define RESET "\033[0m"
 # define RED "\033[0;31m"
+# define MS_TO_MICRO 1000
+# define MICRO_MIN 60000
+# define TIME_LESS_MIN "Error: time less than 60ms\n"
 
 typedef struct s_data
 {

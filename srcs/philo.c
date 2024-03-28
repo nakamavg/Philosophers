@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 23:53:35 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/28 01:44:03 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:53:52 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 static void assing_data(int ac, char **av, t_data *data)
 { 
 	data->num_philo = ft_atol(av[1]);
-	data->time_to_die = ft_atol(av[2]) * 1000;
-	data->time_to_eat = ft_atol(av[3]) * 1000;
-	data->time_to_sleep = ft_atol(av[4]) *1000;
+	data->time_to_die = ft_atol(av[2]) * MS_TO_MICRO ;
+	data->time_to_eat = ft_atol(av[3]) * MS_TO_MICRO ;
+	data->time_to_sleep = ft_atol(av[4]) * MS_TO_MICRO ;
 	if (ac == 6)
 		data->num_eat = ft_atol(av[5]);
+	if (data->time_to_die < MICRO_MIN || data->time_to_eat < MICRO_MIN || data->time_to_sleep < MICRO_MIN)
+		ft_error(TIME_LESS_MIN);
 	
 }
 void	check_args(int ac, char **av, t_data *data)
