@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 00:07:37 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/27 21:39:50 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 01:58:15 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int ft_strlen(char *str)
 
 void	ft_error(char *str)
 {
-	write(2,str, ft_strlen(str));
+	printf(RED"%s\n", str);
 	exit(EXIT_FAILURE);
 }
 
@@ -31,7 +31,7 @@ bool	ft_isdigit(char c)
 		return (true);
 	return (false);
 }
-int	ft_atoi(const char *str)
+long int	ft_atol(const char *str)
 {
 	unsigned long int	nbr;
 
@@ -46,7 +46,7 @@ int	ft_atoi(const char *str)
 		nbr = nbr * 10 + *str++ - 48;
 	if (nbr < 1 || nbr > 2147483647)
 		ft_error(NMBR_OVERFLOW);
-	return ((int)nbr);
+	return (nbr);
 }
 
 /**

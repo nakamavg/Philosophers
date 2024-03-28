@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/27 21:24:41 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 01:58:51 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # define ERR_MALLOC "Error: malloc\n"
 # define ERR_THREAD "Error: pthread_create\n"
 # define ERR_MUTEX "Error: pthread_mutex_init\n"
+# define BLUE "\033[0;34m"
+# define RESET "\033[0m"
+# define RED "\033[0;31m"
 
 typedef struct s_data
 {
@@ -62,7 +65,7 @@ void clear_memory(t_philo *philo);
 void	ft_error(char *str);
 bool	ft_isdigit(char c);
 int ft_strlen(char *str);
-int	ft_atoi(const char *str);
+long int	ft_atol(const char *str);
 long int	get_time(void);
 //utils2.c
 void ft_error_free(char *str, t_data *data);

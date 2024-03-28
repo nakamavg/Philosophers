@@ -6,11 +6,12 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/27 21:47:49 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 00:29:59 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
 static void init_philo(t_data *data, t_philo *philo)
 {
 	int i;

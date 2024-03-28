@@ -6,13 +6,22 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 23:53:35 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/27 21:19:04 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 01:44:03 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-
+static void assing_data(int ac, char **av, t_data *data)
+{ 
+	data->num_philo = ft_atol(av[1]);
+	data->time_to_die = ft_atol(av[2]) * 1000;
+	data->time_to_eat = ft_atol(av[3]) * 1000;
+	data->time_to_sleep = ft_atol(av[4]) *1000;
+	if (ac == 6)
+		data->num_eat = ft_atol(av[5]);
+	
+}
 void	check_args(int ac, char **av, t_data *data)
 {
 	int	i;
@@ -32,13 +41,9 @@ void	check_args(int ac, char **av, t_data *data)
 		}
 	}
 	memset(data, 0, sizeof(t_data));
+	assing_data(ac, av, data);
 	
-	data->num_philo = ft_atoi(av[1]);
-	data->time_to_die = ft_atoi(av[2]);
-	data->time_to_eat = ft_atoi(av[3]);
-	data->time_to_sleep = ft_atoi(av[4]);
-	if (ac == 6)
-		data->num_eat = ft_atoi(av[5]);
+	
 }
 int	main(int ac, char **av)
 {
