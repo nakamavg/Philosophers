@@ -6,13 +6,30 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:44:36 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/28 01:54:51 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 12:08:32 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/philo.h"
 
+
+
+bool check_die(t_philo *philo)
+{
+	
+	//printf("(%ld) - (%ld) = %ld) >= %ld\n",get_time(),philo->last_eat,get_time()-philo->last_eat,philo->data->time_to_die);
+	if ((get_time() - philo->last_eat) >= philo->data->time_to_die)
+	{
+		pthread_mutex_lock(&philo->data->dead_mutex);
+		pthread_mutex_lock(&philo->data->print);
+		printf(RED"%ld %d died\n"RESET,get_time() - philo->data->time,philo->id);
+		pthread_mutex_unlock(&philo->data->dead_mutex);
+		pthread_mutex_unlock(&philo->data->print);
+		return (true);
+	}
+	return (false);
+}
 int philo_sleep(t_philo *philo)
 
 {
@@ -30,12 +47,15 @@ int philo_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
 	pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
-	printf(BLUE"%ld %d is eating\n"RESET,get_time() - philo->data->time,philo->id);
 	philo->last_eat = get_time();
-	philo->last_meal_time = philo->last_eat;
-	usleep(philo->data->time_to_eat );
+	philo->eat_count++;
+	pthread_mutex_lock(&philo->data->print);
+	printf(BLUE"%ld %d is eating\n"RESET,get_time() - philo->data->time,philo->id);
+	philo->last_meal_time = get_time();
+	usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
+	pthread_mutex_unlock(&philo->data->print);
 	philo->eat_count++;
 	if (philo->eat_count == philo->data->num_eat)
 	{
@@ -51,7 +71,12 @@ int philo_eat(t_philo *philo)
 void *routine(void *arg)
 {
 	 t_philo *philo;
+	 t_data *data;
 	philo = (t_philo *)arg;
+	data = philo->data;
+	if(philo->id % 2 == 0)
+		check_time(data->time_to_die / 1000);
+	
 
 	while(42)
 	{
@@ -60,7 +85,9 @@ void *routine(void *arg)
 		if(philo_sleep(philo) == 1)
 			break;
 		if(philo_think(philo) == 1)
-			break; 
+			break;
+		if(check_die(philo) == true)
+			return(NULL);
 	} 
 	
 	

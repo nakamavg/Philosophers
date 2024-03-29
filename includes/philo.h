@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/28 16:53:24 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:52:12 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <string.h>
 # define IVALID_ARGS "Error: invalid number of arguments\n"
 # define IVALID_CHARS "Error: invalid characters in arguments\n"
 # define NMBR_NEGATIVE "Error: negative number\n"
@@ -37,18 +37,19 @@
 typedef struct s_data
 {
 	int				num_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	long int		time_to_die;
+	long int		time_to_eat;
+	long int		time_to_sleep;
 	int				num_eat;
-	int				dead;
+	bool			dead;
 	long int		time;
 	pthread_t		*philo;
+	pthread_t		dead_thread;
 	int				eat_count;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	dead_mutex;
-}	t_data;
+}					t_data;
 
 typedef struct s_philo
 {
@@ -57,23 +58,24 @@ typedef struct s_philo
 	int				right_fork;
 	int				eat_count;
 	long int		last_eat;
-	int				last_meal_time;
+	long int		last_meal_time;
 	struct s_data	*data;
-}	t_philo;
+}					t_philo;
 
-//threads.c
-void init_threads(t_data *data);
-void clear_memory(t_philo *philo);
+// threads.c
+void				init_threads(t_data *data);
+void				clear_memory(t_philo *philo);
 // utils.c
-void	ft_error(char *str);
-bool	ft_isdigit(char c);
-int ft_strlen(char *str);
-long int	ft_atol(const char *str);
-long int	get_time(void);
-//utils2.c
-void ft_error_free(char *str, t_data *data);
-//routines.c
-void *routine(void *arg);
-
+void				ft_error(char *str);
+bool				ft_isdigit(char c);
+int					ft_strlen(char *str);
+long int			ft_atol(const char *str);
+long int			get_time(void);
+// utils2.c
+void				ft_error_free(char *str, t_data *data);
+void				check_time(long int time);
+// routines.c
+void				*routine(void *arg);
+bool				check_die(t_philo *philo);
 
 #endif
