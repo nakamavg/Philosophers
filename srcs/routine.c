@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:44:36 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/29 12:08:32 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 13:42:18 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,7 @@ int philo_eat(t_philo *philo)
 void *routine(void *arg)
 {
 	 t_philo *philo;
-	 t_data *data;
 	philo = (t_philo *)arg;
-	data = philo->data;
-	if(philo->id % 2 == 0)
-		check_time(data->time_to_die / 1000);
 	
 
 	while(42)
