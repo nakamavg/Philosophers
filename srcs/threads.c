@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/30 02:48:20 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/30 21:51:24 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ void	init_mutex(t_data *data)
 		ft_error_free(ERR_MUTEX, data);
 	if (pthread_mutex_init(&data->dead_mutex, NULL) != 0)
 		ft_error_free(ERR_MUTEX, data);
+	if (pthread_mutex_init(&data->eat_mutex, NULL) != 0)
+		ft_error_free(ERR_MUTEX, data);
+	
 }
 
 void	init_threads(t_data *data)
@@ -67,7 +70,9 @@ void	init_threads(t_data *data)
 	i = -1;
 	while (++i < data->num_philo)
 		pthread_detach(data->philo[i]);
+	
 	check_die(philo);
+	clear_memory(philo);
 }
 
 void	clear_memory(t_philo *philo)
@@ -76,5 +81,7 @@ void	clear_memory(t_philo *philo)
 		pthread_mutex_destroy(&philo->data->forks[philo->data->num_philo]);
 	pthread_mutex_destroy(&philo->data->print);
 	pthread_mutex_destroy(&philo->data->dead_mutex);
+	pthread_mutex_destroy(&philo->data->eat_mutex);
+	
 	free(philo);
 }

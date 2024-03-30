@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 23:53:35 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/30 02:52:40 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/30 17:31:29 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void	assing_data(int ac, char **av, t_data *data)
 	if (data->time_to_die < MICRO_MIN || data->time_to_eat < MICRO_MIN
 		|| data->time_to_sleep < MICRO_MIN)
 		ft_error(TIME_LESS_MIN);
+	data->num_eat_done = 0;
+	data->eat_count = 0;
 }
 
 void	check_args(int ac, char **av, t_data *data)
