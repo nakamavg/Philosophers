@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/30 01:25:59 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/30 02:56:01 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_data
 	pthread_t		*philo;
 	pthread_t		monitor_thread;
 	int				eat_count;
-	int  			phlo_loop;
+	int				phlo_loop;
 	pthread_mutex_t	monitor;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
@@ -83,9 +83,14 @@ long int			diff_time(long int time);
 void				print_mutex(t_philo *philo, char *str);
 // routines.c
 void				*routine(void *arg);
+// actions.c
+bool				philo_dead(t_philo *philo);
 void				check_die(t_philo *philo);
-//forks.c
-void	lock_forks(t_philo *philo);
-void	unlock_forks(t_philo *philo);
+int					philo_sleep(t_philo *philo);
+int					philo_think(t_philo *philo);
+int					philo_eat(t_philo *philo);
+// forks.c
+void				lock_forks(t_philo *philo);
+void				unlock_forks(t_philo *philo);
 
 #endif

@@ -6,14 +6,17 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 00:07:37 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/29 16:27:33 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/30 02:47:10 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-int ft_strlen(char *str)
+
+int	ft_strlen(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (str[i])
 		i++;
 	return (i);
@@ -21,7 +24,7 @@ int ft_strlen(char *str)
 
 void	ft_error(char *str)
 {
-	printf(RED"%s\n", str);
+	printf(RED "%s\n", str);
 	exit(EXIT_FAILURE);
 }
 
@@ -31,6 +34,7 @@ bool	ft_isdigit(char c)
 		return (true);
 	return (false);
 }
+
 long int	ft_atol(const char *str)
 {
 	unsigned long int	nbr;
@@ -49,19 +53,10 @@ long int	ft_atol(const char *str)
 	return (nbr);
 }
 
-/**
- * Returns the current time in milliseconds.
- *
- * This function uses the gettimeofday() function to get the current time
- * in seconds and microseconds. It then calculates the time in milliseconds
- * by multiplying the seconds by 1000 and adding the microseconds divided by 1000.
- *
- * @return The current time in milliseconds.
- */
-long int get_time(void)
+long int	get_time(void)
 {
-	struct timeval time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
