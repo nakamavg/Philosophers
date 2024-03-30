@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/29 11:36:50 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/30 01:09:31 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 static void init_philo(t_data *data, t_philo *philo)
 {
 	int i;
-	long int init_time;
-	init_time = get_time() ;
-	
 	i = -1;
 	while (++i < data->num_philo)
 	{
 		philo[i].id = i + 1;
 		philo[i].eat_count = 0;
-		philo[i].last_eat = init_time;
-		philo[i].last_meal_time = init_time;
+		philo[i].last_eat =0;
+		philo[i].last_meal_time = get_time();
 		philo[i].data = data;
 		philo[i].left_fork = i;
 		philo[i].right_fork = (i + 1) % data->num_philo;
@@ -48,6 +45,7 @@ void init_mutex(t_data *data)
 		ft_error_free(ERR_MUTEX, data);
 	if(pthread_mutex_init(&data->dead_mutex, NULL) != 0)
 		ft_error_free(ERR_MUTEX, data);	
+	
 }
 
 /*
@@ -74,8 +72,8 @@ void init_threads(t_data *data)
 	init_philo(data, philo);
 	i = -1;
 	while (++i < data->num_philo)
-		pthread_join(data->philo[i], NULL);
-	
+		pthread_detach(data->philo[i]);
+	check_die(philo);
 }
 void clear_memory(t_philo *philo)
 {

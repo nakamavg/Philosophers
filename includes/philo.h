@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/29 11:52:12 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/30 01:25:59 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@
 # define BLUE "\033[0;34m"
 # define RESET "\033[0m"
 # define RED "\033[0;31m"
-# define MS_TO_MICRO 1000
-# define MICRO_MIN 60000
+# define GREEN "\033[0;32m"
+# define YELLOW "\033[0;33m"
+# define MICRO_MIN 60
 # define TIME_LESS_MIN "Error: time less than 60ms\n"
 
 typedef struct s_data
@@ -44,11 +45,14 @@ typedef struct s_data
 	bool			dead;
 	long int		time;
 	pthread_t		*philo;
-	pthread_t		dead_thread;
+	pthread_t		monitor_thread;
 	int				eat_count;
+	int  			phlo_loop;
+	pthread_mutex_t	monitor;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	dead_mutex;
+	pthread_mutex_t	eat_mutex;
 }					t_data;
 
 typedef struct s_philo
@@ -73,9 +77,15 @@ long int			ft_atol(const char *str);
 long int			get_time(void);
 // utils2.c
 void				ft_error_free(char *str, t_data *data);
-void				check_time(long int time);
+void				take_action(long int time);
+void				ft_finish(t_data *data);
+long int			diff_time(long int time);
+void				print_mutex(t_philo *philo, char *str);
 // routines.c
 void				*routine(void *arg);
-bool				check_die(t_philo *philo);
+void				check_die(t_philo *philo);
+//forks.c
+void	lock_forks(t_philo *philo);
+void	unlock_forks(t_philo *philo);
 
 #endif
