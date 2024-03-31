@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/31 04:05:12 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/31 06:04:17 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,14 @@ typedef struct s_data
 	long int		time_to_eat;
 	long int		time_to_sleep;
 	int				num_eat;
-	bool			dead;
 	long int		time;
 	int				num_eat_done;
 	pthread_t		*philo;
 	int				eat_count;
-	int				phlo_loop;
-	pthread_mutex_t	check_done_eat;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	dead_mutex;
 	pthread_mutex_t	eat_mutex;
-	pthread_mutex_t	eat_count_mutex;
 }					t_data;
 
 typedef struct s_philo
@@ -73,7 +69,6 @@ typedef struct s_philo
 	int				right_fork;
 	int				eat_count;
 	bool			done_eat;
-	long int		last_eat;
 	long int		last_meal_time;
 	struct s_data	*data;
 }					t_philo;
@@ -100,7 +95,7 @@ bool				aux_done_eat(t_philo *philo);
 
 // actions.c
 bool				philo_dead(t_philo *philo);
-int				check_die(t_philo *philo);
+bool					check_die(t_philo *philo);
 int					philo_sleep(t_philo *philo);
 int					philo_think(t_philo *philo);
 int					philo_eat(t_philo *philo);

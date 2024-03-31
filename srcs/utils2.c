@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 21:23:13 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/30 02:46:03 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/31 05:55:11 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ void	take_action(long int time)
 			break ;
 		usleep(100);
 	}
-}
-
-void	ft_finish(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	while (++i < data->num_philo)
-		pthread_detach(data->philo[i]);
-	i = -1;
-	while (++i < data->num_philo)
-		pthread_mutex_destroy(&data->forks[i]);
-	pthread_mutex_destroy(&data->print);
-	pthread_mutex_destroy(&data->dead_mutex);
-	exit(1);
 }
 
 void	print_mutex(t_philo *philo, char *str)

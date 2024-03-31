@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/31 04:09:20 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/31 06:05:45 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	init_philo(t_data *data, t_philo *philo)
 		philo[i].id = i + 1;
 		philo[i].done_eat = false;
 		philo[i].eat_count = 0;
-		philo[i].last_eat = 0;
 		philo[i].last_meal_time = get_time();
 		philo[i].data = data;
 		philo[i].left_fork = i;
@@ -46,8 +45,6 @@ void	init_mutex(t_data *data)
 	action_mutex_init(data, PRINT);
 	action_mutex_init(data, DEAD);
 	action_mutex_init(data, EAT);
-	action_mutex_init(data, CHECK_DONE_EAT);
-	
 }
 
 void	init_threads(t_data *data)
@@ -69,15 +66,13 @@ void	init_threads(t_data *data)
 	i = -1;
 	while (++i < data->num_philo)
 		pthread_detach(data->philo[i]);
-	while(42)
-	{	
-		if(philo->done_eat)
+	while (42)
+	{
+		if (philo->done_eat)
 			break ;
-		if(check_die(philo) == 1)
+		if (check_die(philo))
 			break ;
-		
 	}
-	
 	clear_memory(philo);
 }
 
@@ -85,12 +80,9 @@ void	clear_memory(t_philo *philo)
 {
 	while (philo->data->num_philo--)
 		pthread_mutex_destroy(&philo->data->forks[philo->data->num_philo]);
-	action_mutex_destroy(philo,PRINT);
+	action_mutex_destroy(philo, PRINT);
 	action_mutex_destroy(philo, DEAD);
 	action_mutex_destroy(philo, EAT);
-	action_mutex_destroy(philo, CHECK_DONE_EAT);
 	free(philo->data->forks);
-
 	free(philo);
-	printf("Memory cleared\n");
 }
