@@ -6,11 +6,22 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 02:33:13 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/30 21:56:34 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/31 03:39:04 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+bool aux_done_eat(t_philo *philo)
+{
+	action_mutex_lock(philo, CHECK_DONE_EAT);
+	if (philo->data->num_eat != -1 && philo->eat_count == philo->data->num_eat)
+	{
+		action_mutex_unlock(philo, CHECK_DONE_EAT);
+		return (true);
+	}
+	action_mutex_unlock(philo, CHECK_DONE_EAT);
+	return (false);
+}
 
 static bool are_id_even(t_philo *philo)
 {
@@ -47,10 +58,10 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (42)
+	while (!philo->done_eat)
 	{
 		if(philo->done_eat)
-			return (NULL);
+			return (NULL) ;
 		if (philo_routine(philo) == 1)
 			break ;
 	}

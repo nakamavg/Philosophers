@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:44:36 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/30 21:48:51 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/31 01:57:45 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,27 @@
 
 bool	philo_dead(t_philo *philo)
 {
-	long int	diff_time;
-
-	diff_time = get_time() - philo->last_meal_time;
-	if (diff_time == philo->data->time_to_die && !philo->done_eat)
+	if (get_time() - philo->last_meal_time > philo->data->time_to_die && !philo->done_eat)
 	{
-		pthread_mutex_lock(&philo->data->print);
-		pthread_mutex_lock(&philo->data->dead_mutex);
-		printf(RED "%ld %d died\n" RESET, get_time() - philo->data->time,
-			philo->id);
-		pthread_mutex_unlock(&philo->data->print);
-		pthread_mutex_unlock(&philo->data->dead_mutex);
+		action_mutex_lock(philo, DEAD);
+		printf("last meal time: %ld\n",  get_time()-philo->last_meal_time);
+		print_mutex(philo, RED "died" RESET);
+		action_mutex_unlock(philo, DEAD);
 		return (true);
 	}
 	return (false);
 }
 
-void	check_die(t_philo *philo)
+int	check_die(t_philo *philo)
 {
-	int	i;
-
-	while (42)
+	while (!philo->done_eat)
 	{
-		if(philo->data->num_eat_done == philo->data->num_philo)
-		{
-			exit(EXIT_SUCCESS);
-			break;
-		}
-		i = -1;
-		while (++i < philo->data->num_philo)
-		{
-			if (philo_dead(&philo[i]))
-				ft_finish(philo->data);
 		
-		}
+		if (philo_dead(philo) )
+			break ; 
+		usleep(100);
 	}
+	return (1);
 }
 
 int	philo_sleep(t_philo *philo)
@@ -66,21 +52,18 @@ int	philo_think(t_philo *philo)
 
 int	philo_eat(t_philo *philo)
 {
-	if(philo->done_eat)
-		{
-			print_mutex(philo, VIOLET"is done eating" RESET);
-			return (1);
-		}
+	if(aux_done_eat(philo))
+		return (1);
 	lock_forks(philo);
-	pthread_mutex_lock(&philo->data->eat_mutex);
+	action_mutex_lock(philo, EAT);
 	if(philo->eat_count == philo->data->num_eat)
 		philo->data->num_eat_done++;
-	pthread_mutex_unlock(&philo->data->eat_mutex);
-	take_action(philo->data->time_to_eat);
-	print_mutex(philo,VIOLET"is eating" RESET);
-	philo->eat_count++;
 	if(philo->eat_count == philo->data->num_eat)
 		philo->done_eat = true;
+	philo->eat_count++;
+	action_mutex_unlock(philo, EAT);
+	take_action(philo->data->time_to_eat);
+	print_mutex(philo,VIOLET"is eating" RESET);
 	philo->last_meal_time = get_time();
 	
 	unlock_forks(philo);

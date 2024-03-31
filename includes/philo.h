@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/30 18:12:39 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/31 01:25:52 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@
 # define MICRO_MIN 60
 # define TIME_LESS_MIN "Error: time less than 60ms\n"
 
+typedef enum e_mutex
+{
+	PRINT,
+	DEAD,
+	EAT,
+	EAT_COUNT,
+	CHECK_DONE_EAT
+}					t_mutex;
+
 typedef struct s_data
 {
 	int				num_philo;
@@ -45,11 +54,11 @@ typedef struct s_data
 	int				num_eat;
 	bool			dead;
 	long int		time;
-	int 			num_eat_done;
+	int				num_eat_done;
 	pthread_t		*philo;
 	int				eat_count;
 	int				phlo_loop;
-	pthread_mutex_t	monitor;
+	pthread_mutex_t	check_done_eat;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	dead_mutex;
@@ -87,14 +96,21 @@ void				print_mutex(t_philo *philo, char *str);
 // routines.c
 void				*routine(void *arg);
 void				*one_fillo_route(void *arg);
+bool				aux_done_eat(t_philo *philo);
+
 // actions.c
 bool				philo_dead(t_philo *philo);
-void				check_die(t_philo *philo);
+int				check_die(t_philo *philo);
 int					philo_sleep(t_philo *philo);
 int					philo_think(t_philo *philo);
 int					philo_eat(t_philo *philo);
 // forks.c
 void				lock_forks(t_philo *philo);
 void				unlock_forks(t_philo *philo);
+// wrapped_mutex.c
+void				action_mutex_lock(t_philo *philo, t_mutex type);
+void				action_mutex_unlock(t_philo *philo, t_mutex type);
+void				action_mutex_init(t_data *data, t_mutex type);
+void				action_mutex_destroy(t_philo *philo, t_mutex type);
 
 #endif

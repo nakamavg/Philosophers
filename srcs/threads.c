@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/30 21:51:24 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/31 01:30:56 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	init_philo(t_data *data, t_philo *philo)
 	while (++i < data->num_philo)
 	{
 		philo[i].id = i + 1;
+		philo[i].done_eat = false;
 		philo[i].eat_count = 0;
 		philo[i].last_eat = 0;
 		philo[i].last_meal_time = get_time();
@@ -42,12 +43,10 @@ void	init_mutex(t_data *data)
 	while (++i < data->num_philo)
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 			ft_error_free(ERR_MUTEX, data);
-	if (pthread_mutex_init(&data->print, NULL) != 0)
-		ft_error_free(ERR_MUTEX, data);
-	if (pthread_mutex_init(&data->dead_mutex, NULL) != 0)
-		ft_error_free(ERR_MUTEX, data);
-	if (pthread_mutex_init(&data->eat_mutex, NULL) != 0)
-		ft_error_free(ERR_MUTEX, data);
+	action_mutex_init(data, PRINT);
+	action_mutex_init(data, DEAD);
+	action_mutex_init(data, EAT);
+	action_mutex_init(data, CHECK_DONE_EAT);
 	
 }
 
@@ -70,8 +69,8 @@ void	init_threads(t_data *data)
 	i = -1;
 	while (++i < data->num_philo)
 		pthread_detach(data->philo[i]);
-	
 	check_die(philo);
+	
 	clear_memory(philo);
 }
 
@@ -79,9 +78,12 @@ void	clear_memory(t_philo *philo)
 {
 	while (philo->data->num_philo--)
 		pthread_mutex_destroy(&philo->data->forks[philo->data->num_philo]);
-	pthread_mutex_destroy(&philo->data->print);
-	pthread_mutex_destroy(&philo->data->dead_mutex);
-	pthread_mutex_destroy(&philo->data->eat_mutex);
-	
+	action_mutex_destroy(philo,PRINT);
+	action_mutex_destroy(philo, DEAD);
+	action_mutex_destroy(philo, EAT);
+	action_mutex_destroy(philo, CHECK_DONE_EAT);
+	free(philo->data->forks);
+
 	free(philo);
+	printf("Memory cleared\n");
 }
