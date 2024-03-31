@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 23:50:21 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/31 00:56:29 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/31 04:04:59 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,5 @@ void action_mutex_destroy(t_philo *philo, t_mutex type)
 	else if (type == CHECK_DONE_EAT)
 		pthread_mutex_destroy(&philo->data->check_done_eat);
 }
+
 

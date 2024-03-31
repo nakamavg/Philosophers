@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/31 01:30:56 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/31 04:09:20 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,14 @@ void	init_threads(t_data *data)
 	i = -1;
 	while (++i < data->num_philo)
 		pthread_detach(data->philo[i]);
-	check_die(philo);
+	while(42)
+	{	
+		if(philo->done_eat)
+			break ;
+		if(check_die(philo) == 1)
+			break ;
+		
+	}
 	
 	clear_memory(philo);
 }
