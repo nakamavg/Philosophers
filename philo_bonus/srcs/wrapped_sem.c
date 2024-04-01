@@ -6,13 +6,13 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 23:50:21 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/02 00:28:24 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 01:04:01 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_bonus.h"
 
-void create_semaphore(const char *name, sem_t **sem, int value, t_data *data)
+void	create_semaphore(const char *name, sem_t **sem, int value, t_data *data)
 {
 	sem_unlink(name);
 	*sem = sem_open(name, O_CREAT, 0644, value);
@@ -20,14 +20,14 @@ void create_semaphore(const char *name, sem_t **sem, int value, t_data *data)
 		ft_error_free(ERR_SEMAPHORE, data);
 }
 
-void open_semaphore(const char *name, sem_t **sem, t_data *data)
+void	open_semaphore(const char *name, sem_t **sem, t_data *data)
 {
 	*sem = sem_open(name, O_CREAT, 0644, 1);
 	if (*sem == SEM_FAILED)
 		ft_error_free(ERR_SEMAPHORE, data);
 }
 
-void action_sem_init(t_data *data, t_semaphore type)
+void	action_sem_init(t_data *data, t_semaphore type)
 {
 	if (type == PRINT)
 		create_semaphore("/print", &(data->print), 1, data);
@@ -40,20 +40,20 @@ void action_sem_init(t_data *data, t_semaphore type)
 	else if (type == STOP)
 		create_semaphore("/stop", &(data->stop), 1, data);
 }
-	
 
-void	action_sem_destroy(t_data *data)
+void	clear_memory(t_philo *philo)
 {
-	if (sem_close(data->print) == -1)
-		ft_error_free(ERR_SEMAPHORE_CLOSE, data);
-	if (sem_close(data->dead_semaphore) == -1)
-		ft_error_free(ERR_SEMAPHORE_CLOSE, data);
-	if (sem_close(data->eat_semaphore) == -1)
-		ft_error_free(ERR_SEMAPHORE_CLOSE, data);
-	if (sem_unlink("/print") == -1)
-		ft_error_free(ERR_SEMAPHORE_UNLINK, data);
-	if (sem_unlink("/dead") == -1)
-		ft_error_free(ERR_SEMAPHORE_UNLINK, data);
-	if (sem_unlink("/eat") == -1)
-		ft_error_free(ERR_SEMAPHORE_UNLINK, data);
+	t_data	*data;
+	int		i;
+
+	data = philo->data;
+	i = -1;
+	while (++i < philo->data->num_philo)
+		kill(data->pid[i], SIGKILL);
+	sem_close(philo->data->dead_semaphore);
+	sem_close(philo->data->eat_semaphore);
+	sem_close(philo->data->stop);
+	sem_close(philo->data->print);
+	sem_close(philo->data->forks);
+	free(philo);
 }

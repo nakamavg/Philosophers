@@ -6,12 +6,12 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/02 00:26:56 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 01:02:15 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <pthread.h>
 # include <semaphore.h>
@@ -59,7 +59,6 @@ typedef enum e_semaphore
 	SLEEP
 }					t_semaphore;
 
-
 typedef struct s_data
 {
 	int				num_philo;
@@ -83,7 +82,7 @@ typedef struct s_philo
 	int				id;
 	int				forks;
 	int				eat_count_philo;
-	int             n_eat;
+	int				n_eat;
 	bool			done_eat;
 	long int		last_meal_time;
 	struct s_data	*data;
@@ -106,11 +105,11 @@ void				ft_error_free(char *str, t_data *data);
 void				take_action(long int time);
 void				ft_finish(t_data *data);
 long int			diff_time(long int time);
-void				print_semaphore_queue(t_philo *philo ,t_semaphore action);
+void				print_semaphore_queue(t_philo *philo, t_semaphore action);
 
 // routines.c
 void				routine(t_philo *philo);
-void 				*check_eat(void *arg);
+void				*check_eat(void *arg);
 bool				aux_done_eat(t_philo *philo);
 
 // actions.c
