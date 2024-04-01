@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 23:50:21 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/01 21:48:04 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 00:28:24 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ void action_sem_init(t_data *data, t_semaphore type)
 		create_semaphore("/forks", &(data->forks), data->num_philo, data);
 	else if (type == STOP)
 		create_semaphore("/stop", &(data->stop), 1, data);
-	else if (type == EAT)
-		create_semaphore("/control", &(data->eat), 1, data);
 }
+	
 
 void	action_sem_destroy(t_data *data)
 {

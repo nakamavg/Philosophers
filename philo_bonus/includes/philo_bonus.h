@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/01 21:49:18 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 00:26:56 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void				print_semaphore_queue(t_philo *philo ,t_semaphore action);
 
 // routines.c
 void				routine(t_philo *philo);
-void				one_philo_routine(t_data *data, int id);
+void 				*check_eat(void *arg);
 bool				aux_done_eat(t_philo *philo);
 
 // actions.c

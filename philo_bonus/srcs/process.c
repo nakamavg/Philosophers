@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/01 21:57:49 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 00:26:36 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	init_semaphores(t_data *data)
 void	init_processes(t_data *data)
 {
 	t_philo	*philo;
-	pthread_t	dead_monitor;
+	pthread_t	eat_monitor;
+	
 	philo = malloc(sizeof(t_philo) * data->num_philo);
 	if (!philo)
 		ft_error(ERR_MALLOC);
@@ -61,8 +62,8 @@ void	init_processes(t_data *data)
 	init_semaphores(data);
 	data->time = get_time();
 	sem_wait(data->stop);
-	pthread_create(&dead_monitor, NULL, check_die, data);
-	pthread_detach(dead_monitor);
+	pthread_create(&eat_monitor, NULL, check_eat, data);
+	pthread_detach(eat_monitor);
 	init_philo(data, philo);
 	
 	sem_wait(data->stop);

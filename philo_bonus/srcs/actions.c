@@ -6,26 +6,12 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:44:36 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/01 21:59:46 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 00:28:49 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_bonus.h"
 
-void *check_eat(void *arg)
-{
-	t_data * data;
-	data = (t_philo *)arg;
-	int i;
-	i = -1;
-	
-	while(++i < data->num_philo)
-	{
-		sem_wait(data->eat_semaphore);
-	}
-	sem_post(data->stop);
-	return (NULL);
-}
 
 void	*check_die(void *arg)
 {
@@ -69,9 +55,7 @@ int	philo_think(t_philo *philo)
 int philo_eat(t_philo *philo)
 {
 	print_semaphore_queue(philo, EAT);
-	philo->data->eat_count_total++;
-	if (philo->eat_count_philo < philo->data->num_eat && philo->data->num_eat != -1)
-		philo->eat_count_philo++;
+	philo->eat_count_philo++;
 	
 	take_action(philo->data->time_to_eat);
 	philo->last_meal_time = get_time();
