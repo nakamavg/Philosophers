@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:44:36 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/02 00:58:34 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 02:06:20 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	*check_die(void *arg)
 	while (1)
 	{
 		sem_wait(philo->data->dead_semaphore);
-		if (get_time() - philo->last_meal_time >= philo->data->time_to_die
-			&& !philo->done_eat)
+		if (get_time() - philo->last_meal_time >= philo->data->time_to_die)
 		{
 			print_semaphore_queue(philo, DEAD);
 			sem_post(philo->data->stop);

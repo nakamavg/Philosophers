@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 23:50:21 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/02 01:04:01 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 01:31:39 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@ void	create_semaphore(const char *name, sem_t **sem, int value, t_data *data)
 {
 	sem_unlink(name);
 	*sem = sem_open(name, O_CREAT, 0644, value);
-	if (*sem == SEM_FAILED)
-		ft_error_free(ERR_SEMAPHORE, data);
-}
-
-void	open_semaphore(const char *name, sem_t **sem, t_data *data)
-{
-	*sem = sem_open(name, O_CREAT, 0644, 1);
 	if (*sem == SEM_FAILED)
 		ft_error_free(ERR_SEMAPHORE, data);
 }
