@@ -18,3 +18,4 @@ se quede esperando, no hay waitpid permitido aqui.
 
 - Justamente despues del fork - tengo n hilos por cada proceso para checkear la muerte y tengo un hilo para saber si en el caso de que nos pasan numero de comidas bloquear n veces  el hilo 
 por cada proceso/filosofo que haya terminado de comer pasara por un post.
+![Alt text](image.png)
