@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 23:53:35 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/31 07:49:55 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/03/30 17:31:29 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ int	main(int ac, char **av)
 	t_data	data;
 
 	check_args(ac, av, &data);
-	init_processes(&data);
+	init_threads(&data);
 	return (0);
 }

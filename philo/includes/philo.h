@@ -1,40 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/31 08:46:38 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 03:03:30 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <semaphore.h>
+# include <pthread.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-
 # define IVALID_ARGS "Error: invalid number of arguments\n"
 # define IVALID_CHARS "Error: invalid characters in arguments\n"
 # define NMBR_NEGATIVE "Error: negative number\n"
 # define NMBR_OVERFLOW "Error: number overflow\n"
 # define ERR_MALLOC "Error: malloc\n"
-# define ERR_PROCESS "Error: fork\n"
-# define ERR_SEMAPHORE_INIT "Error: semaphore init\n"
-# define ERR_SEMAPHORE_CLOSE "Error: semaphore close\n"
-# define ERR_SEMAPHORE_UNLINK "Error: semaphore unlink\n"
-# define ERR_SEMAPHORE_WAIT "Error: semaphore wait\n"
-# define ERR_SEMAPHORE_POST "Error: semaphore post\n"
-# define ERR_SEMAPHORE_DESTROY "Error: semaphore destroy\n"
-# define ERR_SEMAPHORE_OPEN "Error: semaphore open\n"
-# define ERR_SEMAPHORE "Error: semaphore\n"
+# define ERR_THREAD "Error: pthread_create\n"
+# define ERR_MUTEX "Error: pthread_mutex_init\n"
 # define BLUE "\033[0;34m"
 # define RESET "\033[0m"
 # define RED "\033[0;31m"
@@ -44,14 +36,14 @@
 # define MICRO_MIN 60
 # define TIME_LESS_MIN "Error: time less than 60ms\n"
 
-typedef enum e_semaphore
+typedef enum e_mutex
 {
 	PRINT,
 	DEAD,
 	EAT,
 	EAT_COUNT,
-	FORK
-}					t_semaphore;
+	CHECK_DONE_EAT
+}					t_mutex;
 
 typedef struct s_data
 {
@@ -62,26 +54,27 @@ typedef struct s_data
 	int				num_eat;
 	long int		time;
 	int				num_eat_done;
-	pid_t			*pid;
+	pthread_t		*philo;
 	int				eat_count;
-	sem_t			*forks;
-	sem_t			*print;
-	sem_t			*dead_semaphore;
-	sem_t			*eat_semaphore;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	print;
+	pthread_mutex_t	dead_mutex;
+	pthread_mutex_t	eat_mutex;
 }					t_data;
 
 typedef struct s_philo
 {
 	int				id;
-	int				forks;
+	int				left_fork;
+	int				right_fork;
 	int				eat_count;
 	bool			done_eat;
 	long int		last_meal_time;
 	struct s_data	*data;
 }					t_philo;
 
-// process.c
-void				init_processes(t_data *data);
+// threads.c
+void				init_threads(t_data *data);
 void				clear_memory(t_philo *philo);
 // utils.c
 void				ft_error(char *str);
@@ -94,22 +87,25 @@ void				ft_error_free(char *str, t_data *data);
 void				take_action(long int time);
 void				ft_finish(t_data *data);
 long int			diff_time(long int time);
-void				print_semaphore(t_philo *philo, char *str);
+void				print_mutex(t_philo *philo, char *str);
 // routines.c
-void				routine(t_data *data, int id);
-void				one_philo_routine(t_data *data, int id);
+void				*routine(void *arg);
+void				*one_fillo_route(void *arg);
 bool				aux_done_eat(t_philo *philo);
 
 // actions.c
 bool				philo_dead(t_philo *philo);
 bool				check_die(t_philo *philo);
 int					philo_sleep(t_philo *philo);
+int					philo_think(t_philo *philo);
 int					philo_eat(t_philo *philo);
-// wrapped_sem.c
-void				action_sem_lock(t_philo *philo, t_semaphore type);
-void				action_sem_unlock(t_philo *philo, t_semaphore type);
-void				action_sem_wait(t_philo *philo, t_semaphore type);
-void				action_sem_post(t_philo *philo, t_semaphore type);
-void				action_sem_init(t_data *data, t_semaphore type)
+// forks.c
+void				lock_forks(t_philo *philo);
+void				unlock_forks(t_philo *philo);
+// wrapped_mutex.c
+void				action_mutex_lock(t_philo *philo, t_mutex type);
+void				action_mutex_unlock(t_philo *philo, t_mutex type);
+void				action_mutex_init(t_data *data, t_mutex type);
+void				action_mutex_destroy(t_philo *philo, t_mutex type);
 
 #endif
