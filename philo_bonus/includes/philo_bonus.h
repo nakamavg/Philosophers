@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/02 01:27:01 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 23:23:59 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 # define IVALID_ARGS "Error: invalid number of arguments\n"
 # define IVALID_CHARS "Error: invalid characters in arguments\n"
