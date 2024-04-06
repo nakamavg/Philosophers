@@ -6,11 +6,27 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 02:33:13 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/02 03:02:22 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/06 03:09:50 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+
+int one_fillo_route(t_philo *philo)
+{
+    print_mutex(philo, YELLOW "has taken a fork" RESET);
+    while(1)
+    {
+        pthread_mutex_lock(&philo->data->dead_mutex);
+        if(philo->data->dead)
+        {
+            pthread_mutex_unlock(&philo->data->dead_mutex);
+            return (1);
+        }
+        pthread_mutex_unlock(&philo->data->dead_mutex);
+    }
+}
 
 static bool	are_id_even(t_philo *philo)
 {
@@ -21,24 +37,13 @@ static bool	are_id_even(t_philo *philo)
 
 static int	philo_routine(t_philo *philo)
 {
+	if (philo->data->num_philo == 1)
+	 	if(one_fillo_route(philo) == 1)
+			return (1);
 	if (are_id_even(philo))
-	{
-		if (philo_eat(philo) == 1)
-			return (1);
-		if (philo_sleep(philo))
-			return (1);
-		if (philo_think(philo))
-			return (1);
-	}
-	else
-	{
-		if (philo_sleep(philo))
-			return (1);
-		if (philo_think(philo))
-			return (1);
-		if (philo_eat(philo) == 1)
-			return (1);
-	}
+			usleep(100);
+	if(philo_eat(philo) == 1)
+		return (1);
 	return (0);
 }
 
@@ -47,7 +52,8 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (!philo->done_eat)
+		
+	while (!philo->data->dead)
 	{
 		if (philo->done_eat)
 			return (NULL);

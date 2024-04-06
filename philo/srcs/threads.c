@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/03/31 06:05:45 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/06 03:21:37 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ void	init_mutex(t_data *data)
 	action_mutex_init(data, PRINT);
 	action_mutex_init(data, DEAD);
 	action_mutex_init(data, EAT);
+	action_mutex_init(data, EAT_COUNT);
 }
 
 void	init_threads(t_data *data)
 {
-	t_philo	*philo;
-	int		i;
+	t_philo		*philo;
+	pthread_t	thread_death;
+	int			i;
 
 	i = -1;
 	philo = malloc(sizeof(t_philo) * data->num_philo);
@@ -63,16 +65,16 @@ void	init_threads(t_data *data)
 	init_mutex(data);
 	data->time = get_time();
 	init_philo(data, philo);
+	pthread_create(&thread_death, NULL, monitor, philo);
 	i = -1;
 	while (++i < data->num_philo)
-		pthread_detach(data->philo[i]);
-	while (42)
-	{
-		if (philo->done_eat)
-			break ;
-		if (check_die(philo))
-			break ;
-	}
+		pthread_join(data->philo[i], NULL);
+	pthread_join(thread_death, NULL);
+	if (philo->data->dead)
+		printf(RED "%ld %d died \n" RESET, get_time() - data->time,
+			philo->data->idx_of_dead);
+	else if (philo->data->all_eaten)
+		print_mutex(philo, GREEN "All philosophers have eaten enough" RESET);
 	clear_memory(philo);
 }
 
@@ -84,5 +86,6 @@ void	clear_memory(t_philo *philo)
 	action_mutex_destroy(philo, DEAD);
 	action_mutex_destroy(philo, EAT);
 	free(philo->data->forks);
+	free(philo->data->philo);
 	free(philo);
 }

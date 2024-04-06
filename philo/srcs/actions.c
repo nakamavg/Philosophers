@@ -6,55 +6,67 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:44:36 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/02 03:03:14 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/06 04:56:52 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-bool	philo_dead(t_philo *philo)
+bool check_bool(pthread_mutex_t *mutex, bool *dead)
 {
-	if (get_time() - philo->last_meal_time > philo->data->time_to_die)
-	{
-		action_mutex_lock(philo, DEAD);
-		print_mutex(philo, RED "died" RESET);
-		action_mutex_unlock(philo, DEAD);
-		return (true);
-	}
-	return (false);
+	bool ret;
+	pthread_mutex_lock(mutex);
+	if (*dead)
+		ret = true;
+	else
+		ret = false;
+	pthread_mutex_unlock(mutex);
+	return (ret);
 }
 
-bool	check_die(t_philo *philo)
+bool	philo_sleep(t_philo *philo)
 {
-	if (philo_dead(philo))
-		return (true);
-	return (false);
-}
-
-int	philo_sleep(t_philo *philo)
-{
+	if(check_bool(&philo->data->dead_mutex, &philo->data->dead))
+		return (1);
 	take_action(philo->data->time_to_sleep);
 	print_mutex(philo, BLUE "is sleeping" RESET);
 	return (0);
 }
 
-int	philo_think(t_philo *philo)
+bool	philo_think(t_philo *philo)
 {
+	if(check_bool(&philo->data->dead_mutex, &philo->data->dead))
+		return (1);
 	print_mutex(philo, GREEN "is thinking" RESET);
 	return (0);
 }
-
 int	philo_eat(t_philo *philo)
 {
-	lock_forks(philo);
-	action_mutex_lock(philo, EAT);
-	if (philo->eat_count == philo->data->num_eat)
-		philo->done_eat = true;
-	philo->eat_count++;
-	philo->last_meal_time = get_time();
-	action_mutex_unlock(philo, EAT);
-	take_action(philo->data->time_to_eat);
-	print_mutex(philo, VIOLET "is eating" RESET);
-	unlock_forks(philo);
-	return (0);
+	while (!check_bool(&philo->data->dead_mutex, &philo->data->dead) && 
+	!check_bool(&philo->data->eat_count_mutex, &philo->done_eat))
+	{
+		lock_forks(philo);
+		action_mutex_lock(philo, EAT);
+		if (philo->eat_count == philo->data->max_eat &&
+		 philo->data->max_eat != -1)
+		{
+			pthread_mutex_lock(&philo->data->eat_count_mutex);
+			philo->done_eat = true;
+			pthread_mutex_unlock(&philo->data->eat_count_mutex);
+		}
+		if(philo->data->max_eat != -1)
+			philo->eat_count++;
+		action_mutex_unlock(philo, EAT);
+		print_mutex(philo, VIOLET "is eating" RESET);
+		take_action(philo->data->time_to_eat);
+		pthread_mutex_lock(&philo->data->eat_count_mutex);
+		philo->last_meal_time = get_time();
+		pthread_mutex_unlock(&philo->data->eat_count_mutex);
+		unlock_forks(philo);
+		philo_sleep(philo);
+		philo_think(philo);
+	}
+		return (1);
 }
+
+

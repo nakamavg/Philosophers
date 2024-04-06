@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/02 03:03:30 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/06 03:20:51 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,17 @@ typedef struct s_data
 	long int		time_to_die;
 	long int		time_to_eat;
 	long int		time_to_sleep;
-	int				num_eat;
+	bool			all_eaten;
+	bool			dead;
+	int				max_eat;
 	long int		time;
-	int				num_eat_done;
 	pthread_t		*philo;
-	int				eat_count;
+	int 			idx_of_dead;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	dead_mutex;
 	pthread_mutex_t	eat_mutex;
+	pthread_mutex_t	eat_count_mutex;
 }					t_data;
 
 typedef struct s_philo
@@ -69,6 +71,7 @@ typedef struct s_philo
 	int				right_fork;
 	int				eat_count;
 	bool			done_eat;
+	long int		time_of_death;
 	long int		last_meal_time;
 	struct s_data	*data;
 }					t_philo;
@@ -85,20 +88,19 @@ long int			get_time(void);
 // utils2.c
 void				ft_error_free(char *str, t_data *data);
 void				take_action(long int time);
-void				ft_finish(t_data *data);
 long int			diff_time(long int time);
 void				print_mutex(t_philo *philo, char *str);
 // routines.c
 void				*routine(void *arg);
-void				*one_fillo_route(void *arg);
 bool				aux_done_eat(t_philo *philo);
 
 // actions.c
 bool				philo_dead(t_philo *philo);
 bool				check_die(t_philo *philo);
-int					philo_sleep(t_philo *philo);
-int					philo_think(t_philo *philo);
 int					philo_eat(t_philo *philo);
+void 				*monitor(void *arg);
+
+
 // forks.c
 void				lock_forks(t_philo *philo);
 void				unlock_forks(t_philo *philo);
