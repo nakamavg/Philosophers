@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/04 23:23:59 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 06:16:13 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_data
 	sem_t			*print;
 	sem_t			*dead_semaphore;
 	sem_t			*eat_semaphore;
+	sem_t			*eat_count;
 	sem_t			*stop;
 }					t_data;
 

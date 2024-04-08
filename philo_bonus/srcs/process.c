@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/02 03:04:27 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 06:32:32 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	init_semaphores(t_data *data)
 	action_sem_init(data, EAT);
 	action_sem_init(data, FORK);
 	action_sem_init(data, STOP);
+	action_sem_init(data, EAT_COUNT);
 }
 
 void	init_processes(t_data *data)
@@ -60,9 +61,12 @@ void	init_processes(t_data *data)
 	init_semaphores(data);
 	data->time = get_time();
 	sem_wait(data->stop);
-	pthread_create(&eat_monitor, NULL, check_eat, data);
-	pthread_detach(eat_monitor);
 	init_philo(data, philo);
+	if (data->num_eat != -1)
+	{
+		pthread_create(&eat_monitor, NULL, check_eat, data);
+		pthread_detach(eat_monitor);
+	}
 	sem_wait(data->stop);
 	clear_memory(philo);
 }

@@ -6,13 +6,13 @@
 #    By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/26 18:28:20 by dgomez-m          #+#    #+#              #
-#    Updated: 2024/04/01 01:04:00 by dgomez-m         ###   ########.fr        #
+#    Updated: 2024/04/08 06:01:44 by dgomez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-NAME		:= Philo_bonus
-CFLAGS		:= -Wall -Wextra -Werror 
+NAME		:= philo_bonus
+CFLAGS		:= -Wall -Wextra -Werror -g 
 INCLUDE 	:= includes/philo_bonus.h
 SRC 		:= srcs/philo.c   srcs/process.c  srcs/wrapped_sem.c srcs/utils.c srcs/utils2.c \
 				srcs/actions.c srcs/routine.c srcs/forks.c
