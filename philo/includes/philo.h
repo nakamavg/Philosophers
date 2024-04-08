@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 18:24:20 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/06 03:20:51 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 08:09:19 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_data
 	int				max_eat;
 	long int		time;
 	pthread_t		*philo;
-	int 			idx_of_dead;
+	int				idx_of_dead;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	dead_mutex;
@@ -98,8 +98,7 @@ bool				aux_done_eat(t_philo *philo);
 bool				philo_dead(t_philo *philo);
 bool				check_die(t_philo *philo);
 int					philo_eat(t_philo *philo);
-void 				*monitor(void *arg);
-
+void				*monitor(void *arg);
 
 // forks.c
 void				lock_forks(t_philo *philo);

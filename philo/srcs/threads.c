@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/06 03:21:37 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 07:53:55 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	init_mutex(t_data *data)
 	action_mutex_init(data, DEAD);
 	action_mutex_init(data, EAT);
 	action_mutex_init(data, EAT_COUNT);
+	data->time = get_time();
 }
 
 void	init_threads(t_data *data)
@@ -63,7 +64,6 @@ void	init_threads(t_data *data)
 		ft_error_free(ERR_MALLOC, data);
 	memset(philo, 0, sizeof(t_philo) * data->num_philo);
 	init_mutex(data);
-	data->time = get_time();
 	init_philo(data, philo);
 	pthread_create(&thread_death, NULL, monitor, philo);
 	i = -1;

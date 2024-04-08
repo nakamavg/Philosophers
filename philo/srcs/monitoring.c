@@ -6,37 +6,36 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:32:36 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/08 06:37:27 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 07:49:16 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-bool check_death(t_philo *philo)
+bool	check_death(t_philo *philo)
 {
-    int i;
-    long int time;
+	int			i;
+	long int	time;
 
-    i = -1;
-    while (++i < philo->data->num_philo && !philo->data->dead)
-    {
-        pthread_mutex_lock(&philo[i].data->eat_count_mutex);
-        time = get_time() - philo[i].last_meal_time;
-        pthread_mutex_unlock(&philo[i].data->eat_count_mutex);
-
-        pthread_mutex_lock(&philo[i].data->dead_mutex);
-        if (time > philo->data->time_to_die && !philo[i].done_eat)
-        {
-            philo[i].data->idx_of_dead = philo[i].id;
-            philo->time_of_death = get_time();
-            philo->data->dead = true;
-            pthread_mutex_unlock(&philo[i].data->dead_mutex);
-            return (true);
-        }
-        pthread_mutex_unlock(&philo[i].data->dead_mutex);
+	i = -1;
+	while (++i < philo->data->num_philo && !philo->data->dead)
+	{
+		pthread_mutex_lock(&philo[i].data->eat_count_mutex);
+		time = get_time() - philo[i].last_meal_time;
+		pthread_mutex_unlock(&philo[i].data->eat_count_mutex);
+		pthread_mutex_lock(&philo[i].data->dead_mutex);
+		if (time > philo->data->time_to_die && !philo[i].done_eat)
+		{
+			philo[i].data->idx_of_dead = philo[i].id;
+			philo->time_of_death = get_time();
+			philo->data->dead = true;
+			pthread_mutex_unlock(&philo[i].data->dead_mutex);
+			return (true);
+		}
+		pthread_mutex_unlock(&philo[i].data->dead_mutex);
 		usleep(100);
-    }
-    return (false);
+	}
+	return (false);
 }
 
 bool	check_all_eaten(t_philo *philo)
@@ -50,7 +49,7 @@ bool	check_all_eaten(t_philo *philo)
 		if (!philo[i].done_eat)
 		{
 			pthread_mutex_unlock(&philo[i].data->eat_count_mutex);
-				return (false);
+			return (false);
 		}
 		pthread_mutex_unlock(&philo[i].data->eat_count_mutex);
 	}

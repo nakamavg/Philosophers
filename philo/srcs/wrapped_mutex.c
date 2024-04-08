@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 23:50:21 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/06 03:22:12 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 08:09:09 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	action_mutex_lock(t_philo *philo, t_mutex type)
 		pthread_mutex_lock(&philo->data->eat_mutex);
 	else if (type == EAT_COUNT)
 		pthread_mutex_lock(&philo->data->eat_count_mutex);
-		
 }
 
 void	action_mutex_unlock(t_philo *philo, t_mutex type)
@@ -35,7 +34,6 @@ void	action_mutex_unlock(t_philo *philo, t_mutex type)
 		pthread_mutex_unlock(&philo->data->eat_mutex);
 	else if (type == EAT_COUNT)
 		pthread_mutex_unlock(&philo->data->eat_count_mutex);
-	
 }
 
 void	action_mutex_init(t_data *data, t_mutex type)
@@ -55,11 +53,10 @@ void	action_mutex_init(t_data *data, t_mutex type)
 		if (pthread_mutex_init(&data->eat_mutex, NULL) != 0)
 			ft_error_free(ERR_MUTEX, data);
 	}
-	else if(type == EAT_COUNT)
+	else if (type == EAT_COUNT)
 	{
 		if (pthread_mutex_init(&data->eat_count_mutex, NULL) != 0)
 			ft_error_free(ERR_MUTEX, data);
-	
 	}
 }
 
@@ -73,5 +70,4 @@ void	action_mutex_destroy(t_philo *philo, t_mutex type)
 		pthread_mutex_destroy(&philo->data->eat_mutex);
 	else if (type == EAT_COUNT)
 		pthread_mutex_destroy(&philo->data->eat_count_mutex);
-		
 }
