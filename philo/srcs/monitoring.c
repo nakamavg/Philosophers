@@ -6,12 +6,11 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:32:36 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/06 04:59:48 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 06:37:27 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-#include <stdbool.h>
 
 bool check_death(t_philo *philo)
 {

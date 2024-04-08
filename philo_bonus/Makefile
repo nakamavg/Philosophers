@@ -6,7 +6,7 @@
 #    By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/26 18:28:20 by dgomez-m          #+#    #+#              #
-#    Updated: 2024/04/08 06:01:44 by dgomez-m         ###   ########.fr        #
+#    Updated: 2024/04/08 07:36:38 by dgomez-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ all:$(NAME)
 
 $(NAME): $(SRC) $(INCLUDE)
 	mkdir -p bin
-	cc  $(CFLAGS)  -lpthread   $(SRC) -o $(NAME) 
+	gcc  $(CFLAGS)  -lpthread   $(SRC) -o $(NAME) 
 
 clean:
 	rm -rf bin

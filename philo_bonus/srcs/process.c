@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:58:00 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/08 06:32:32 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 07:07:20 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	init_processes(t_data *data)
 	t_philo		*philo;
 	pthread_t	eat_monitor;
 
+	//eat_monitor = malloc(sizeof(pthread_t));
 	philo = malloc(sizeof(t_philo) * data->num_philo);
 	if (!philo)
 		ft_error(ERR_MALLOC);
@@ -68,5 +69,6 @@ void	init_processes(t_data *data)
 		pthread_detach(eat_monitor);
 	}
 	sem_wait(data->stop);
+	//free(eat_monitor);
 	clear_memory(philo);
 }

@@ -6,7 +6,7 @@
 /*   By: dgomez-m <aecm.davidgomez@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 23:50:21 by dgomez-m          #+#    #+#             */
-/*   Updated: 2024/04/08 06:33:08 by dgomez-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 06:56:23 by dgomez-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	clear_memory(t_philo *philo)
 		kill(data->pid[i], SIGKILL); 
 	sem_close(philo->data->dead_semaphore);
 	sem_close(philo->data->eat_semaphore);
+	sem_close(philo->data->eat_count);
 	sem_close(philo->data->stop);
 	sem_close(philo->data->print);
 	sem_close(philo->data->forks);
